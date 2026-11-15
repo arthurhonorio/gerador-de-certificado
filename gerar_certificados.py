@@ -1,6 +1,5 @@
 from datetime import datetime
 from pathlib import Path
-import subprocess
 from docxtpl import DocxTemplate
 import pandas as pd
 
@@ -21,6 +20,8 @@ df.columns = df.columns.str.strip()
 
 # 3. Pega a data atual do sistema e formata como DD/MM/YYYY
 data_atual = datetime.now().strftime("%d/%m/%Y")
+
+contador = 0
 
 # 4. Itera sobre cada linha da planilha
 for index, linha in df.iterrows():
@@ -45,37 +46,12 @@ for index, linha in df.iterrows():
     # Substitui as tags no documento
     doc.render(contexto)
 
-    # Nome base para os arquivos (substituindo barras para evitar erro no Linux)
-    nome_limpo = f"Certificado - {nome}".replace("/", "-")
-    caminho_docx = pasta_saida / f"{nome_limpo}.docx"
+    # Limpa caracteres inválidos para nome de arquivo e salva
+    nome_arquivo = f"Certificado - {nome}.docx".replace("/", "-")
+    caminho_final = pasta_saida / nome_arquivo
 
-    # Salva o arquivo temporário em .docx
-    doc.save(caminho_docx)
+    doc.save(caminho_final)
+    print(f"Gerado: {nome_arquivo}")
+    contador += 1
 
-    # Converte o .docx gerado para PDF usando o LibreOffice via terminal do Python
-    try:
-        subprocess.run(
-            [
-                "soffice",
-                "--headless",
-                "--convert-to",
-                "pdf",
-                "--outdir",
-                str(pasta_saida),
-                str(caminho_docx),
-            ],
-            check=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-        )
-
-        # (Opcional) Se quiser apagar o arquivo .docx e deixar apenas o PDF na pasta,
-        # descomente a linha abaixo removendo a cerquilha (#):
-        caminho_docx.unlink()
-
-        print(f"Gerado PDF: {nome_limpo}.pdf")
-
-    except Exception as e:
-        print(f"Erro ao converter o certificado de {nome}: {e}")
-
-print("\nProcesso concluído!")
+print(f"\nProcesso concluído! {contador} certificados gerados com sucesso na pasta 'certificados_gerados'.")
