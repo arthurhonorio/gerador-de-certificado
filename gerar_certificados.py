@@ -71,7 +71,7 @@ for index, linha in df.iterrows():
 
         # (Opcional) Se quiser apagar o arquivo .docx e deixar apenas o PDF na pasta,
         # descomente a linha abaixo removendo a cerquilha (#):
-        # caminho_docx.unlink()
+        caminho_docx.unlink()
 
         print(f"Gerado PDF: {nome_limpo}.pdf")
 
