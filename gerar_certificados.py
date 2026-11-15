@@ -1,3 +1,4 @@
+from datetime import datetime
 from pathlib import Path
 from docxtpl import DocxTemplate
 import pandas as pd
@@ -17,7 +18,10 @@ df = pd.read_excel(caminho_excel, dtype=str)
 # Remove possíveis espaços extras nos nomes das colunas
 df.columns = df.columns.str.strip()
 
-# 3. Itera sobre cada linha da planilha
+# 3. Pega a data atual do sistema e formata como DD/MM/YYYY
+data_atual = datetime.now().strftime("%d/%m/%Y")
+
+# 4. Itera sobre cada linha da planilha
 for index, linha in df.iterrows():
     nome = str(linha["Nome"]).strip()
     cpf = str(linha["CPF"]).strip()
@@ -34,8 +38,8 @@ for index, linha in df.iterrows():
     # Carrega o modelo a cada iteração para não sobrescrever os anteriores
     doc = DocxTemplate(caminho_modelo)
 
-    # Dicionário com as variáveis que estão no Word
-    contexto = {"nome": nome, "cpf": cpf}
+    # Dicionário com as variáveis que estão no Word (incluindo a data)
+    contexto = {"nome": nome, "cpf": cpf, "data_emissao": data_atual}
 
     # Substitui as tags no documento
     doc.render(contexto)
