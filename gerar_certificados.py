@@ -4,7 +4,7 @@ import pandas as pd
 
 # 1. Configurações de caminhos (ajuste conforme a sua pasta)
 diretorio_base = Path("./Documentos/arthur/certificados")
-caminho_excel = diretorio_base / "dados.xlsx"
+caminho_excel = diretorio_base / "copia com dados.xlsx"
 caminho_modelo = diretorio_base / "Certificado_SOS_Dom_Almir_Modelo_Editavel.docx"
 pasta_saida = diretorio_base / "certificados_gerados"
 
