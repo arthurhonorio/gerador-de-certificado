@@ -2,7 +2,7 @@ from pathlib import Path
 from docxtpl import DocxTemplate
 import pandas as pd
 
-# 1. Configurações de caminhos com os seus arquivos reais
+# 1. Configurações de caminhos
 diretorio_base = Path(".")
 caminho_excel = diretorio_base / "copia com dados.xlsx"
 caminho_modelo = diretorio_base / "Certificado_SOS_Dom_Almir_Modelo_Editavel.docx"
@@ -22,8 +22,13 @@ for index, linha in df.iterrows():
     nome = str(linha["Nome"]).strip()
     cpf = str(linha["CPF"]).strip()
 
-    # Pula linhas vazias, caso existam
+    # Pula linhas caso o Nome esteja vazio/nan
     if nome == "nan" or not nome:
+        continue
+
+    # Pula linhas caso o CPF esteja vazio, nan ou nulo
+    if cpf == "nan" or not cpf or cpf.lower() == "none":
+        print(f"Pulado (CPF em branco): {nome}")
         continue
 
     # Carrega o modelo a cada iteração para não sobrescrever os anteriores
