@@ -3,7 +3,7 @@ from docxtpl import DocxTemplate
 import pandas as pd
 
 # 1. Configurações de caminhos com os seus arquivos reais
-diretorio_base = Path("./Documentos/arthur/certificados")
+diretorio_base = Path(".")
 caminho_excel = diretorio_base / "copia com dados.xlsx"
 caminho_modelo = diretorio_base / "Certificado_SOS_Dom_Almir_Modelo_Editavel.docx"
 pasta_saida = diretorio_base / "certificados_gerados"
